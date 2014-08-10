@@ -1,0 +1,25 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="
+        http://www.springframework.org/schema/beans     
+        http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+	<bean id="webServiceConsumer" class="com.bskyb.webservice.WebServiceConsumer">
+		<property name="webserviceURL" value="${serviceEndPointURL}" />
+	</bean>
+
+	<bean id="rewardsService" class="com.bskyb.service.RewardsService">
+		<property name="webServiceConsumer" ref="webServiceConsumer" />
+		<property name="sessionFactory" ref ="sessionFactory" />
+	</bean>
+	
+	<bean id="customerService" class="com.bskyb.service.CustomerService" >
+		<property name="sessionFactory" ref ="sessionFactory" />
+	</bean>
+	
+	<bean id="rewardsController" class="com.bskyb.controller.RewardsController">
+		<property name="rewardsService" ref="rewardsService" />
+		<property name="customerService" ref="customerService" />
+	</bean>
+</beans>
